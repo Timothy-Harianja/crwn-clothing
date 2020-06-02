@@ -1,10 +1,17 @@
 import { createSelector } from 'reselect';
 
+//this class is used for efficiency when it comes to react rendering.
+//Rendering only things that have been changed.
 const selectCart = state => state.cart;
 
 export const selectCartItems = createSelector(
     [selectCart],
     (cart) => cart.cartItems
+)
+
+export const selectCartHidden = createSelector(
+    [selectCart],
+    cart => cart.hidden
 )
 
 export const selectCartItemsCount = createSelector(
@@ -15,3 +22,12 @@ export const selectCartItemsCount = createSelector(
             0
         )
 );
+
+export const selectCartTotal = createSelector(
+    [selectCartItems],
+    cartItems =>
+        cartItems.reduce(
+            (accumulatedQuantity, cartItem) => accumulatedQuantity + cartItem.quantity * cartItem.price, 
+            0
+        )
+)
