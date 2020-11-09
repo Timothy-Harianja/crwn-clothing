@@ -22,7 +22,7 @@ if(process.env.NODE_ENV == 'production') {
     app.use(compression());
     //serve service worker for PWA
     app.get('/service-worker.js', (req, res) => {
-        res.sendFile(path.resolve(__dirname, '..', 'build', 'service-worker.js'));
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'service-worker.js'));
     });
     //_dirname is part of Node.js, it returns the current directory
     //path.join calculates the overall directory
