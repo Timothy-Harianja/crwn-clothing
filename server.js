@@ -20,6 +20,11 @@ app.use(enforce.HTTPS({ trustProtoHeader: true }));
 app.use(cors());
 
 if(process.env.NODE_ENV == 'production') {
+    app.use(compression);
+    //serve service worker for PWA
+    app.get('/service-worker.js', (req, res) => {
+        res.sendFile(path.resolve(__dirname, '..', 'build', 'service-worker.js'));
+    });
     //_dirname is part of Node.js, it returns the current directory
     //path.join calculates the overall directory
     // exprress static servers a file from the given path
@@ -36,10 +41,7 @@ app.listen(port, error => {
     console.log('Server running on port ' + port);
 })
 
-//serve service worker for PWA
-app.get('/service-worker.js', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '..', 'build', 'service-worker.js'));
-});
+
 
 app.post('/payment', (req, res) => {
     const body = {
